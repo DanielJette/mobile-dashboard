@@ -11,6 +11,8 @@
     }
   </style>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.0.6/fetch-jsonp.min.js"></script>
+
   <script>
 
 	function getJSON(url) {
@@ -22,18 +24,26 @@
 
 // https://badge.buildkite.com/09e5e28a6a3a8dd422e986e7e71902cf071f1f6af8d715b9cf.json?branch=master
 
+	function bob(json) {
+		var o = document.getElementById('myOutput');
+		o.innerHTML = json
+	}
+
     function doIt() {
 
-    	var url = 'https://badge.buildkite.com/09e5e28a6a3a8dd422e986e7e71902cf071f1f6af8d715b9cf.json?branch=master'
+    	//var url = 'https://badge.buildkite.com/09e5e28a6a3a8dd422e986e7e71902cf071f1f6af8d715b9cf.json?branch=master'
+    	var url = 'https://badge.buildkite.com/sample.jsonp?status=passing'
+  //   	var json = getJSON(url)
 
-    	var json = getJSON(url)
+
+		// var json_obj = JSON.parse(json);
+		// console.log("this is the author name: "+json_obj.status);
+
+		fetchJsonp(url)
+  			.then(res => res.json())
+  			.then(json => bob(json));
 
 
-		var json_obj = JSON.parse(json);
-		console.log("this is the author name: "+json_obj.status);
-
-		var o = document.getElementById('myOutput');
-		o.innerHTML = "Dan"
     }
   </script>
 

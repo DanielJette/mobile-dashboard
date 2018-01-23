@@ -1,9 +1,7 @@
 <html>
 <head>
   
-  <meta http-equiv="refresh" content="60" >
   <meta http-equiv="Access-Control-Allow-Origin" content="*">
-
   <header name = "Access-Control-Allow-Origin" value = "*" />
 
   <style>
@@ -13,45 +11,42 @@
     }
   </style>
 
-  <script src="Vibrant.min.js"></script>
-
   <script>
 
+	function getJSON(url) {
+		var Httpreq = new XMLHttpRequest(); // a new request
+		Httpreq.open("GET",url,false);
+		Httpreq.send(null);
+		return Httpreq.responseText; 
+	}
+
+// https://badge.buildkite.com/09e5e28a6a3a8dd422e986e7e71902cf071f1f6af8d715b9cf.json?branch=master
 
     function doIt() {
 
-		var img = document.createElement('img');
-		img.setAttribute('src', 'android.png')
+    	var url = 'https://badge.buildkite.com/09e5e28a6a3a8dd422e986e7e71902cf071f1f6af8d715b9cf.json?branch=master'
 
-		img.addEventListener('load', function() {
-		    var vibrant = new Vibrant(img);
-		    var swatches = vibrant.swatches()
-		    for (var swatch in swatches)
-		        if (swatches.hasOwnProperty(swatch) && swatches[swatch])
-		            console.log(swatch, swatches[swatch].getHex())
+    	var json = getJSON(url)
 
-		    /*
-		     * Results into:
-		     * Vibrant #7a4426
-		     * Muted #7b9eae
-		     * DarkVibrant #348945
-		     * DarkMuted #141414
-		     * LightVibrant #f3ccb4
-		     */
-		});
+
+		var json_obj = JSON.parse(json);
+		console.log("this is the author name: "+json_obj.status);
+
+		var o = document.getElementById('myOutput');
+		o.innerHTML = "Dan"
     }
   </script>
 
 </head>
 
 	<body>
+
 	<form>
-	  <button onclick="doIt()">Click me</button>
+	  <button onclick="doIt(); return false;">Click me</button>
 	</form>
 
-	
-  	<!-- <img id='dan' src='file:///./android.png' /> -->
-	
+
+	<div id="myOutput"></div>
 
 	</body>
 </html>

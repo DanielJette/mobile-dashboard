@@ -1,0 +1,111 @@
+<html>
+<head>
+
+<meta http-equiv="refresh" content="60" >
+
+<style>
+    td {
+      font-size:24px;
+      height:60px;
+    }
+    table {
+      padding-left: 20px;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+const STATUS_URL = "https://buildkite-build-status.herokuapp.com";
+
+function associateImageUrl(img, url) {
+  $.ajax({
+    url: url
+  }).then(function(data) {
+    console.log(data)
+    img.attr("src", data)
+  });
+}
+
+function makePlatformImg(id, platform) {
+  var img = $("<img/>")
+  img.attr("width", "48px")
+  img.attr("src", platform + ".png")
+  return img
+}
+
+function makeLogoImg(id, logo) {
+  if (logo == "") {
+    return null
+  }
+  var img = $("<img/>")
+  img.attr("width", "48px")
+  img.attr("src", logo + ".png")
+  return img
+}
+
+function makeStatusImg(id) {
+  var img = $("<img/>")
+  img.attr("width", "100px")
+  associateImageUrl(img, STATUS_URL + "/badge?id=" + id)
+  return img
+}
+
+function makeTable(container, data) {
+
+    var table = $("<table/>").addClass('CSSTableGenerator');
+    $.each(data, function(rowIndex, r) {
+        var row = $("<tr/>");
+
+        var dataRow = data[rowIndex];
+        var id = dataRow[0];
+        var platform = dataRow[1];
+        var logo = dataRow[2];
+        var title = dataRow[3];
+
+        row.append($("<td/>").attr("width", "150px").append(makeStatusImg(id)))
+        row.append($("<td/>").attr("width", "80px").append(makePlatformImg(id, platform)))
+        row.append($("<td/>").attr("width", "80px").append(makeLogoImg(id, logo)))
+        row.append($("<td/>").text(title));
+
+        table.append(row);
+    });
+    return container.append(table);
+}
+
+$(document).ready(function() {
+
+    var data =
+      [
+        ["8889bf9929a117249f40a18e7aab5f4b146d5ea6c6a19c1d18", "apple",    "",         "iOS @ Shopify (master)"],
+        ["95b4f4535e17dd65765f0319675643a76c354a272b236df8ce", "android",  "",         "Android @ Shopify (master)"],
+        ["ce900af1a4cde4323abb371ab168d50a1f808069210bde01f5", "android",  "shopify",  "Mobile Shopify"],
+        ["8a2d89e731cb5c7f9fd30d1a241391a1bc9b0aca3927627a42", "android",  "shopify",  "Mobile Shopify Automation"],
+        ["09e5e28a6a3a8dd422e986e7e71902cf071f1f6af8d715b9cf", "android",  "shopify",  "Mobile Shopify Play Store"],
+        ["78ef5f6ee4e4c5ff06f48eb3f90ba8b57305c8ed08b698f5e3", "android",  "pos",      "Point of Sale"],
+        ["8f0a3de2ce014b0094acf585c4b68348e08fb164dfe4ab610c", "android",  "pos",      "Point Of Sale Customer Facing App"],
+        ["8350cdee0e44d7809bd87175c37125cb9edb0e9927bbd913f6", "android",  "pos",      "Point Of Sale SDK"],
+        ["325cea36fbbd06bd8ccaecfd786564ae4f4b41e92893885afb", "android",  "pos",      "Point Of Sale Integration Tests"],
+        ["1affd0422c06e393e0b9e4dd86784fe6bdaaad494669bfac6f", "android",  "",         "Timeline"],
+        ["e198140085b657fdf5e1eef0e7b1417b7525c4b4b61c22c82f", "android",  "",         "Merchant Login"],
+        ["606b56053e5b2770da654528256c65a4cc9f846e76a9deb554", "android",  "",         "Uploadify"],
+        ["c5491521bd3755598efde6c281f9c973149cda9892ac7a8599", "android",  "",         "Foundation"],
+        ["74953c3d9a6915475b1589d3b6cb559c0a9422a461253d600d", "android",  "",         "Polaris"],
+        ["8d72b5bd96e5ce2166e67e54e3e5981e6f817bcc17f7ba1970", "android",  "",         "Merchant SDK"],
+        ["4772c1833ed5080364730d65c7e7190bc45a086f558e888594", "android",  "",         "Testify"]
+     ]
+    makeTable($("#statusTable"), data);
+    $("#timestamp").html(Date());
+});
+
+</script>
+</head>
+
+<body>
+
+<div id="statusTable"></div>
+<p id="timestamp"></p>
+
+</body>
+
+</html>

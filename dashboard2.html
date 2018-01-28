@@ -36,11 +36,18 @@ function associateImageUrl(img, url, extras) {
   });
 }
 
+function associatePlatformImage(img, url, platform) {
+  $.ajax({
+    url: url
+  }).then(function(data) {
+    img.attr("src", platform + "-" + data + ".png")
+  });
+}
+
 function makePlatformImg(id, platform) {
   var img = $("<img/>")
   img.attr("width", "48px")
-  img.attr("src", platform + ".png")
-
+  associatePlatformImage(img, STATUS_URL + "/status?id=" + id, platform)
   return img
 }
 

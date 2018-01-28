@@ -18,7 +18,7 @@
     height:60px;
   }
   table {
-    padding-left: 10px;
+    padding-left: 80px;
   }
 
 </style>
@@ -28,12 +28,11 @@
 
 const STATUS_URL = "https://buildkite-build-status.herokuapp.com";
 
-function associateImageUrl(img, url) {
+function associateImageUrl(img, url, extras) {
   $.ajax({
     url: url
   }).then(function(data) {
-    console.log(data)
-    img.attr("src", data)
+    img.attr("src", data + extras)
   });
 }
 
@@ -41,6 +40,7 @@ function makePlatformImg(id, platform) {
   var img = $("<img/>")
   img.attr("width", "48px")
   img.attr("src", platform + ".png")
+
   return img
 }
 
@@ -55,10 +55,10 @@ function makeLogoImg(id, logo) {
 }
 
 function makeStatusImg(id) {
-  var img = $("<img/>")
-  img.attr("width", "100px")
-  associateImageUrl(img, STATUS_URL + "/badge?id=" + id)
-  return img
+  var img = $("<img/>");
+  img.attr("width", "100px");
+  associateImageUrl(img, STATUS_URL + "/badge?id=" + id, "&theme=95bf46,ed6347,999");
+  return img;
 }
 
 function makeTable(container, data) {
@@ -73,9 +73,9 @@ function makeTable(container, data) {
         var logo = dataRow[2];
         var title = dataRow[3];
 
-        row.append($("<td/>").attr("width", "120px").append(makeStatusImg(id)))
-        row.append($("<td/>").attr("width", "60px").append(makePlatformImg(id, platform)))
-        row.append($("<td/>").attr("width", "60px").append(makeLogoImg(id, logo)))
+        row.append($("<td/>").attr("width", "120px").append(makeStatusImg(id)));
+        row.append($("<td/>").attr("width", "60px").append(makePlatformImg(id, platform)));
+        row.append($("<td/>").attr("width", "60px").append(makeLogoImg(id, logo)));
         row.append($("<td/>").text(title));
 
         table.append(row);

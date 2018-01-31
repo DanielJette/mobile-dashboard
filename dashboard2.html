@@ -45,6 +45,9 @@ function associatePlatformImage(img, url, platform) {
 }
 
 function makePlatformImg(id, platform) {
+  if (platform == "") {
+    return null
+  }
   var img = $("<img/>")
   img.attr("width", "48px")
   associatePlatformImage(img, STATUS_URL + "/status?id=" + id, platform)
@@ -107,6 +110,7 @@ $(document).ready(function() {
         ["e198140085b657fdf5e1eef0e7b1417b7525c4b4b61c22c82f", "android",  "",            "Merchant Login"],
         ["8d72b5bd96e5ce2166e67e54e3e5981e6f817bcc17f7ba1970", "android",  "graphql",     "Merchant SDK"],
         ["74953c3d9a6915475b1589d3b6cb559c0a9422a461253d600d", "android",  "polaris",     "Polaris"],
+        ["11a3edc09218415623d5ea0c7a02f03a000c2ac6bb5e53dfa5", "",         "rocky",       "Rocky"],
         ["4772c1833ed5080364730d65c7e7190bc45a086f558e888594", "android",  "",            "Testify"],
         ["1affd0422c06e393e0b9e4dd86784fe6bdaaad494669bfac6f", "android",  "",            "Timeline"],
         ["606b56053e5b2770da654528256c65a4cc9f846e76a9deb554", "android",  "uploadify",   "Uploadify"]

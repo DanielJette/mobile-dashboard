@@ -40,7 +40,7 @@ function associatePlatformImage(img, url, platform) {
   $.ajax({
     url: url
   }).then(function(data) {
-    img.attr("src", "heart" + "-" + data + ".png")
+    img.attr("src", platform + "-" + data + ".png")
   });
 }
 

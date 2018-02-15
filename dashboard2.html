@@ -28,6 +28,22 @@
 
 const STATUS_URL = "https://buildkite-build-status.herokuapp.com";
 
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('timeclock').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+
 function associateImageUrl(img, url, extras) {
   $.ajax({
     url: url
@@ -132,8 +148,9 @@ $(document).ready(function() {
 </script>
 </head>
 
-<body>
+<body onload="startTime()">
 
+<div style="font-size:24pt;text-align: right; padding-right: 80px" id="timeclock"></div>
 <div id="statusTable"></div>
 <p id="timestamp"></p>
 

@@ -1,7 +1,7 @@
 <html>
 <head>
 
-<meta http-equiv="refresh" content="60" >
+<meta http-equiv="refresh" content="150" >
 
 <style>
   @import url('https://cdn.shopify.com/shopify-marketing_assets/builds/30.6.0/marketing_assets/builds/shopify-sans.css');
@@ -27,6 +27,7 @@
 <script>
 
 const STATUS_URL = "https://buildkite-build-status.herokuapp.com";
+// const STATUS_URL = "http://localhost:4567";
 
 function startTime() {
     var today = new Date();
@@ -44,33 +45,17 @@ function checkTime(i) {
     return i;
 }
 
-function associateImageUrl(img, url, extras) {
-  $.ajax({
-    url: url
-  }).then(function(data) {
-    img.attr("src", data + extras)
-  });
-}
-
-function associatePlatformImage(img, url, platform) {
-  $.ajax({
-    url: url
-  }).then(function(data) {
-    img.attr("src", platform + "-" + data + ".png")
-  });
-}
-
-function makePlatformImg(id, platform, branch) {
+function makePlatformImg(platform, status) {
   if (platform == "") {
     return null
   }
   var img = $("<img/>")
   img.attr("width", "48px")
-  associatePlatformImage(img, STATUS_URL + "/status?id=" + id + "&branch=" + branch, platform)
+  img.attr("src", platform + "-" + status + ".png")
   return img
 }
 
-function makeLogoImg(id, logo) {
+function makeLogoImg(logo) {
   if (logo == "") {
     return null
   }
@@ -80,34 +65,85 @@ function makeLogoImg(id, logo) {
   return img
 }
 
-function makeStatusImg(id, branch) {
+function makeStatusImg(badge) {
   var img = $("<img/>");
   img.attr("width", "100px");
-  associateImageUrl(img, STATUS_URL + "/badge?id=" + id + "&branch=" + branch, "&theme=95bf46,ed6347,999");
+  img.attr("src", badge + "&theme=95bf46,ed6347,999")
   return img;
 }
 
-function makeTable(container, data) {
+function makeJsonTable(json, data) {
+  var container = $("#statusTable");
+  var table = $("<table/>").addClass('CSSTableGenerator');
 
-    var table = $("<table/>").addClass('CSSTableGenerator');
-    $.each(data, function(rowIndex, r) {
-        var row = $("<tr/>");
+  $.each(json.data, function(rowIndex, r) {
+    var row = $("<tr/>");
+
+    var dataRow = data[rowIndex];
+    var id = dataRow[0];
+    var platform = dataRow[1];
+    var logo = dataRow[2];
+    var title = dataRow[3];
+    var branch = dataRow[4] || "master";
+
+    var status = r.pipeline.status;
+    var badge  = r.pipeline.badge;
+
+    row.append($("<td/>").attr("width", "120px").append(makeStatusImg(badge)));
+    row.append($("<td/>").attr("width", "60px").append(makePlatformImg(platform, status)));
+    row.append($("<td/>").attr("width", "60px").append(makeLogoImg(logo)));
+    row.append($("<td/>").text(title));
+
+    table.append(row);
+  });
+
+  return container.append(table);
+}
+
+
+function postStatus(body, table_data) {
+  $.ajax({
+      url: STATUS_URL + "/bulk",
+      dataType: "text",
+      type: "POST",
+      data: body,
+      success: function( data, textStatus, jQxhr ){
+        var json = jQuery.parseJSON(data);
+        makeJsonTable(json, table_data);
+      },
+      error: function( jqXhr, textStatus, errorThrown ){
+          $("#statusTable").append("wat");
+      }
+  });
+}
+
+function constructPostBody(data) {
+
+  var body = "{\n  \"pipelines\": [\n";
+  var end_mark = ""
+
+  $.each(data, function(rowIndex, r) {
 
         var dataRow = data[rowIndex];
         var id = dataRow[0];
-        var platform = dataRow[1];
-        var logo = dataRow[2];
-        var title = dataRow[3];
         var branch = dataRow[4] || "master";
 
-        row.append($("<td/>").attr("width", "120px").append(makeStatusImg(id, branch)));
-        row.append($("<td/>").attr("width", "60px").append(makePlatformImg(id, platform, branch)));
-        row.append($("<td/>").attr("width", "60px").append(makeLogoImg(id, logo)));
-        row.append($("<td/>").text(title));
+        body += end_mark;
+        body += "    {\n      \"pipeline\": {\n";
+        body += "        \"id\": \"" + id + "\",\n";
+        body += "        \"branch\": \"" + branch + "\"\n";
+        body += "      }\n";
+        body += "    }";
+        end_mark = ",\n";
+  });
 
-        table.append(row);
-    });
-    return container.append(table);
+  body += "\n  ]\n}";
+  return body;
+}
+
+function throttle() {
+    var h = new Date().getHours();
+    return (h > 21 || h < 7);
 }
 
 $(document).ready(function() {
@@ -141,8 +177,27 @@ $(document).ready(function() {
         ["1affd0422c06e393e0b9e4dd86784fe6bdaaad494669bfac6f", "android",  "",            "Timeline"],
         ["606b56053e5b2770da654528256c65a4cc9f846e76a9deb554", "android",  "uploadify",   "Uploadify"]
      ]
-    makeTable($("#statusTable"), data);
-    $("#timestamp").html(Date());
+
+     $("#timestamp").html(Date());
+
+     if (throttle()) {
+
+        var img = $("<img/>")
+        img.attr("width", "90%")
+        img.attr("src", "night.jpeg")
+        $("#statusTable").append(img)
+        return
+     }
+
+    var body = constructPostBody(data);
+
+    postStatus(body, data)
+
+    // $("#statusTable").append("<pre>" + body + "</pre>");
+
+    // makeTable($("#statusTable"), data);
+
+    
 });
 
 </script>

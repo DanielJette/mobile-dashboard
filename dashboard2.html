@@ -12,13 +12,13 @@
     color: #F4F6F8;
   }
   td {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 22px;
     font-weight: 400;
-    height:60px;
+    height:54px;
   }
   table {
-    padding-left: 80px;
+    padding-left: 72px;
   }
 
 </style>
@@ -50,7 +50,7 @@ function makePlatformImg(platform, status) {
     return null
   }
   var img = $("<img/>")
-  img.attr("width", "48px")
+  img.attr("width", "44px")
   img.attr("src", platform + "-" + status + ".png")
   return img
 }
@@ -60,14 +60,14 @@ function makeLogoImg(logo) {
     return null
   }
   var img = $("<img/>")
-  img.attr("width", "48px")
+  img.attr("width", "44px")
   img.attr("src", logo + ".png")
   return img
 }
 
 function makeStatusImg(badge) {
   var img = $("<img/>");
-  img.attr("width", "100px");
+  img.attr("width", "90px");
   img.attr("src", badge + "&theme=95bf46,ed6347,999")
   return img;
 }
@@ -89,9 +89,9 @@ function makeJsonTable(json, data) {
     var status = r.pipeline.status;
     var badge  = r.pipeline.badge;
 
-    row.append($("<td/>").attr("width", "120px").append(makeStatusImg(badge)));
-    row.append($("<td/>").attr("width", "60px").append(makePlatformImg(platform, status)));
-    row.append($("<td/>").attr("width", "60px").append(makeLogoImg(logo)));
+    row.append($("<td/>").attr("width", "110px").append(makeStatusImg(badge)));
+    row.append($("<td/>").attr("width", "50px").append(makePlatformImg(platform, status)));
+    row.append($("<td/>").attr("width", "50px").append(makeLogoImg(logo)));
     row.append($("<td/>").text(title));
 
     table.append(row);
@@ -160,6 +160,7 @@ $(document).ready(function() {
         ["ba62b1540715d540024d7c23d961f0fe677dcb6225fab8f84a", "apple",    "",            "Merchant Login"],
         ["200d6f13ee86c3a640b219b08c2c1066134f4f0acc48b3ec31", "apple",    "polaris",     "Polaris"],
         ["913521705f4c2b66e72408eb2154aa8292d63d1cb925f9ba27", "apple",    "",            "Testify"],
+        ["11a3edc09218415623d5ea0c7a02f03a000c2ac6bb5e53dfa5", "",         "rocky",       "Rocky"],
         ["95b4f4535e17dd65765f0319675643a76c354a272b236df8ce", "android",  "",            "Android @ Shopify (master)"],
         ["ce900af1a4cde4323abb371ab168d50a1f808069210bde01f5", "android",  "mosho",       "Shopify Mobile"],
         ["8a2d89e731cb5c7f9fd30d1a241391a1bc9b0aca3927627a42", "android",  "mosho",       "Shopify Mobile Automation"],
@@ -171,9 +172,11 @@ $(document).ready(function() {
         ["c5491521bd3755598efde6c281f9c973149cda9892ac7a8599", "android",  "foundations", "Foundation"],
         ["e198140085b657fdf5e1eef0e7b1417b7525c4b4b61c22c82f", "android",  "",            "Merchant Login"],
         ["8d72b5bd96e5ce2166e67e54e3e5981e6f817bcc17f7ba1970", "android",  "graphql",     "Merchant SDK"],
+        ["e710f641bb12f2677c0f1e366172a9e5178fb5a74d9dfe73b1", "android",  "",            "Overflow Menu"],
         ["74953c3d9a6915475b1589d3b6cb559c0a9422a461253d600d", "android",  "polaris",     "Polaris"],
-        ["11a3edc09218415623d5ea0c7a02f03a000c2ac6bb5e53dfa5", "",         "rocky",       "Rocky"],
-        ["4772c1833ed5080364730d65c7e7190bc45a086f558e888594", "android",  "",            "Testify"],
+        ["9e191b212fa804d618cb56e54094771cd5a7e0e978d9e0a9e5", "android",  "",            "Shopify Lint Rules"],
+        ["fabd0c22627b7cd7085c5659f6be946fd2d21866a641a43e8f", "android",  "",            "Smart WebView"],
+        ["4772c1833ed5080364730d65c7e7190bc45a086f558e888594", "android",  "testify",     "Testify"],
         ["1affd0422c06e393e0b9e4dd86784fe6bdaaad494669bfac6f", "android",  "",            "Timeline"],
         ["606b56053e5b2770da654528256c65a4cc9f846e76a9deb554", "android",  "uploadify",   "Uploadify"]
      ]
@@ -205,7 +208,7 @@ $(document).ready(function() {
 
 <body onload="startTime()">
 
-<div style="font-size:24pt;text-align: right; padding-right: 80px" id="timeclock"></div>
+<div style="font-size:22pt;text-align: right; padding-right: 72px" id="timeclock"></div>
 <div id="statusTable"></div>
 <p id="timestamp"></p>
 

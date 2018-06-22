@@ -51,7 +51,7 @@ function makePlatformImg(platform, status) {
   }
   var img = $("<img/>")
   img.attr("width", "44px")
-  img.attr("src", platform + "-" + status + ".png")
+  img.attr("src", "images/" + platform + "-" + status + ".png")
   return img
 }
 
@@ -61,7 +61,7 @@ function makeLogoImg(logo) {
   }
   var img = $("<img/>")
   img.attr("width", "44px")
-  img.attr("src", logo + ".png")
+  img.attr("src", "images/" + logo + ".png")
   return img
 }
 
@@ -153,9 +153,9 @@ function constructPostBody(data) {
 }
 
 function throttle() {
-    // var h = new Date().getHours();
-    // return (h > 20 || h < 7);
-    return false
+    var h = new Date().getHours();
+    return (h > 20 || h < 7);
+    // return false
 }
 
 $(document).ready(function() {
@@ -205,7 +205,7 @@ $(document).ready(function() {
 
         var img = $("<img/>")
         img.attr("width", "90%")
-        img.attr("src", "night.jpeg")
+        img.attr("src", "images/night.jpeg")
         $("#statusTable").append(img)
         return
      }

@@ -78,6 +78,13 @@ function makeJsonTable(json, data) {
 
   var row = $("<tr/>");
 
+  let params = new URLSearchParams(window.location.search)
+  var columns = 2
+
+  if (params.has('columns')) {
+    columns = params.get('columns')
+  }
+
   $.each(json.data, function(rowIndex, r) {
     var dataRow = data[rowIndex];
 
@@ -91,7 +98,7 @@ function makeJsonTable(json, data) {
     var status = r.pipeline.status;
     var badge  = r.pipeline.badge;
 
-    if (rowIndex % 2 == 0) {
+    if (rowIndex % columns == 0) {
       row = $("<tr/>");
       row.append($("<td/>").attr("width", "110px").append(makeStatusImg(badge)));
       row.append($("<td/>").attr("width", "50px").append(makePlatformImg(platform, status)));
@@ -152,10 +159,12 @@ function constructPostBody(data) {
   return body;
 }
 
-function throttle() {
+function throttle(force) {
+    if (force)
+      return false
+
     var h = new Date().getHours();
     return (h > 20 || h < 7);
-    // return false
 }
 
 $(document).ready(function() {
@@ -199,16 +208,17 @@ $(document).ready(function() {
 
      ]
 
-     $("#timestamp").html(Date());
+    let params = new URLSearchParams(window.location.search)
 
-     if (throttle()) {
+    $("#timestamp").html(Date());
 
-        var img = $("<img/>")
-        img.attr("width", "90%")
-        img.attr("src", "images/night.jpeg")
-        $("#statusTable").append(img)
-        return
-     }
+    if (throttle(params.get('force'))) {
+      var img = $("<img/>")
+      img.attr("width", "90%")
+      img.attr("src", "images/night.jpeg")
+      $("#statusTable").append(img)
+      return
+    }
 
     var body = constructPostBody(data);
 

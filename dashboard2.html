@@ -153,8 +153,9 @@ function constructPostBody(data) {
 }
 
 function throttle() {
-    var h = new Date().getHours();
-    return (h > 20 || h < 7);
+    // var h = new Date().getHours();
+    // return (h > 20 || h < 7);
+    return false
 }
 
 $(document).ready(function() {
@@ -185,13 +186,16 @@ $(document).ready(function() {
         [2, "8d72b5bd96e5ce2166e67e54e3e5981e6f817bcc17f7ba1970", "android",  "graphql",     "Merchant SDK"],
         [2, "e710f641bb12f2677c0f1e366172a9e5178fb5a74d9dfe73b1", "android",  "",            "Overflow Menu"],
         [2, "74953c3d9a6915475b1589d3b6cb559c0a9422a461253d600d", "android",  "polaris",     "Polaris"],
-        [2, "9e191b212fa804d618cb56e54094771cd5a7e0e978d9e0a9e5", "android",  "",            "Shopify Lint Rules"],
+        [2, "9e191b212fa804d618cb56e54094771cd5a7e0e978d9e0a9e5", "android",  "",            "Lint Rules"],
         [2, "fabd0c22627b7cd7085c5659f6be946fd2d21866a641a43e8f", "android",  "",            "Smart WebView"],
         [2, "4772c1833ed5080364730d65c7e7190bc45a086f558e888594", "android",  "testify",     "Testify"],
         [2, "1affd0422c06e393e0b9e4dd86784fe6bdaaad494669bfac6f", "android",  "",            "Timeline"],
         [2, "606b56053e5b2770da654528256c65a4cc9f846e76a9deb554", "android",  "uploadify",   "Uploadify"],
         [2, "0a10e3984cd84e322245e97e015b0da6f89a3bc30eca93d8e0", "apple",    "",            "Identity"],
-        [2, "b253b897f0c5958a3045f9abce480d99abfe2abcdc8b801e5f", "apple",  "",   "Rolodex"]
+        [2, "b253b897f0c5958a3045f9abce480d99abfe2abcdc8b801e5f", "apple",  "",   "Rolodex"],
+        [2, "37f24385bd6454d1dbf8963efce4659422c044586362dead36", "android",  "rocky",   "Rocky"],
+        [2, "d7a11d2c0b5b28e423922bf79fa5ce410d96a1bda87f481ded", "android",  "relay",   "Relay"],
+        [2, "98bb1bc42d7b21bf4f70b10c8d401ac857545f311c8567476a", "android",  "rolodex",   "Rolodex"]
 
      ]
 
@@ -209,12 +213,6 @@ $(document).ready(function() {
     var body = constructPostBody(data);
 
     postStatus(body, data)
-
-    // $("#statusTable").append("<pre>" + body + "</pre>");
-
-    // makeTable($("#statusTable"), data);
-
-    
 });
 
 </script>

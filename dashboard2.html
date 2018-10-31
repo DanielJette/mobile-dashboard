@@ -53,8 +53,18 @@ function makePlatformImg(platform, status) {
     return null
   }
   var img = $("<img/>")
+
+  // if (status == "red") {
+  //   img.attr("width", "66px")
+  //   img.attr("src", "images/fire.gif")
+  // } else {
+  //   img.attr("width", "44px")
+  //   img.attr("src", "images/pumpkin.jpg")
+  // }
+
   img.attr("width", "44px")
-  img.attr("src", "images/" + platform + "-" + status + ".png")
+  // img.attr("src", "images/" + platform + "-" + status + ".png")
+  img.attr("src", "images/" + "pumpkin" + "-" + status + ".png")
   return img
 }
 

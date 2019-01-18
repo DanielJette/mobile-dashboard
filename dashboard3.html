@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <meta http-equiv="refresh" content="150">
+
+    <style>
+        @import 'dashboard.css';
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="render.js"></script>
+    <script src="network.js"></script>
+    <script src="snow.js"></script>
+    <script src="android_builds.js"></script>
+    <script src="ios_builds.js"></script>
+    <script src="generic_builds.js"></script>
+    <script src="time.js"></script>
+    <script src="blinker.js"></script>
+
+    <script>
+        const STATUS_URL = "https://buildkite-build-status.herokuapp.com";
+
+        $(document).ready(function() {
+
+            $("#timestamp").html(Date());
+
+            postStatus("Android", "#androidTable", constructPostBody(android_builds), android_builds)
+            postStatus("iOS", "#iosTable", constructPostBody(ios_builds), ios_builds)
+            postStatus("General", "#genericTable", constructPostBody(generic_builds), generic_builds)
+        });
+    </script>
+</head>
+
+<body onload="startTime(); blinker();">
+    <header style="height: 36px;">
+        <div style="font-size:18pt; text-align: left; padding-left: 16px; float: left" id="timestamp"></div>
+        <div style="font-size:18pt; text-align: right; padding-right: 16px; float: right" id="timeclock"></div>
+    </header>
+    <hr/>
+    <br/>
+
+    <div id="androidTable"></div>
+
+    <br/>
+    <hr/>
+    <br/>
+
+    <div id="iosTable"></div>
+
+    <br/>
+    <hr/>
+    <br/>
+
+    <div id="genericTable"></div>
+
+</body>
+
+</html>
